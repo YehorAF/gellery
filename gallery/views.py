@@ -2,6 +2,7 @@ import hashlib
 import secrets
 import os
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError
 from django.views.decorators.http import require_http_methods
@@ -299,13 +300,14 @@ def upload_picture(request: HttpRequest, user_id: int, name: str):
     
     description = form.cleaned_data["description"]
     tags = form.cleaned_data["tags"]
-    
-    if not os.path.exists(f"user-files/{user_id}"):
-        os.mkdir(f"user-files/{user_id}")
+    base_dir = os.path.join(settings.BASE_DIR, "user-files")
+
+    if not os.path.exists(f"{base_dir}/{user_id}"):
+        os.mkdir(f"{base_dir}/{user_id}")
 
     uid = secrets.token_urlsafe(16)
     fmt = request.FILES["picture"].name.split(".")[-1]
-    link = f"user-files/{user_id}/{uid}.{fmt}"
+    link = f"{base_dir}/{user_id}/{uid}.{fmt}"
 
     with open(link, "wb+") as fp:
         for chunk in request.FILES["picture"].chunks():

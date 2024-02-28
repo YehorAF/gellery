@@ -21,7 +21,7 @@ class User(models.Model):
 
 class Picture(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    link = models.CharField(max_length=64)
+    link = models.CharField(max_length=253)
     description = models.TextField()
     tags = models.TextField()
 
