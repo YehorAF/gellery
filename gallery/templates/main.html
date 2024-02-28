@@ -1,0 +1,23 @@
+{% extends "./base.html" %}
+
+{% block title%} Gallery {% endblock %}
+
+{% block content %}
+<div class="container-fluid d-flex flex-wrap" style="margin-top: 10px;">
+    {% for picture in pictures %}
+        <div class="card" style="width: 18rem; margin: 10px;">
+            <a href="/users/{{ picture.username }}/pictures/{{ picture.id }}">
+                <img class="card-img-top" src="/users/{{ picture.username }}/pictures/{{ picture.id }}/load" style="object-fit: contain;" height="200">
+            </a>
+            <div class="card-body">
+                <p class="card-text">
+                    <a href="/users/{{ picture.username }}">{{ picture.username }}</a>
+                </p>
+                <button class="react btn btn-secondary btn-sm" value="/users/{{ picture.username }}/pictures/{{ picture.id }}/react">👍 {{ picture.reactions }}</button>
+            </div>
+        </div>
+    {% empty %}
+    <div class="container text-center" style="margin-top: 30px;"><h3>Hmmmm... I cannot find any pictures. Someone stolen they</h3></div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "./base.html" %}
+
+{% block title%} Gallery {% endblock %}
+
+{% block content %}
+<div id="user-info" class="container-fluid" style="margin-top: 10px;">
+    <div class="row">
+        <div class="col">
+            <h1>{{ user.username }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div id="user-data" class="col align-self-start">
+            <span>email: {{ user.email }}</span>
+            <span>amount pictures: {{ amount_pictures }}</span>
+            <span>followers: <a id="followers">{{ followers }}</a></span>
+            <span>follows: {{ influencers }}</span>
+        </div>
+        <div id="followed-btn" class="col-2 align-self-end">
+            {% if followed %}
+            <button id="unfollow" class="btn btn-danger" value="{{ user.username }}/follow">unfollow</button>
+            <button id="follow" class="btn btn-primary" value="{{ user.username }}/follow" hidden>follow</button>
+            {% else %}
+            <button id="unfollow" class="btn btn-danger" value="{{ user.username }}/follow" hidden>unfollow</button>
+            <button id="follow" class="btn btn-primary" value="{{ user.username }}/follow">follow</button>
+            {% endif %}
+        </div>
+        <!-- <div id="description" class="col-md">
+            <p>
+                {{ user.description }}
+            </p>
+        </div> -->
+    </div>
+</div>
+<div class="container-fluid d-flex flex-wrap" style="margin-top: 10px;">
+{% for picture in pictures %}
+    <div class="card" style="width: 18rem; margin: 10px;">
+        <a href="/users/{{ user.username }}/pictures/{{ picture.id }}">
+            <img class="card-img-top" src="/users/{{ user.username }}/pictures/{{ picture.id }}/load" style="object-fit: contain;" height="200">
+        </a>
+        <div class="card-body">
+            <p class="card-text">
+                <a href="/users/{{ user.username }}">{{ user.username }}</a>
+            </p>
+            <button class="react btn btn-secondary btn-sm"
+                value="/users/{{ user.username }}/pictures/{{ picture.id }}/react">👍 {{ picture.reactions }}</button>
+        </div>
+    </div>
+{% empty %}
+<div class="container text-center" style="margin-top: 30px;">Hmmmm... I cannot find any pictures. Someone stolen them</div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "./base.html" %}
+
+{% block title%} Gallery {% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h1>Users</h1>
+</div>
+<div class="container-fluid text-center">
+    {% for user in users %}
+    <div class="row" style="margin-top: 10px;">
+        <div class="col align-self-start">
+            <a href="/users/{{ user.username }}">{{ user.username }}</a>
+        </div>
+        <div class="col align-self-center">pictures: {{ user.pictures }}</div>
+        <div class="col align-self-end">
+            {% if user.followed %}
+            <button id="unfollow-{{ user.username }}" class="follow-btn btn btn-danger" value="users/{{ user.username }}/follow">unfollow</button>
+            <button id="follow-{{ user.username }}" class="follow-btn btn btn-primary" value="users/{{ user.username }}/follow" hidden>follow</button>
+            {% else %}
+            <button id="unfollow-{{ user.username }}" class="follow-btn btn btn-danger" value="users/{{ user.username }}/follow" hidden>unfollow</button>
+            <button id="follow-{{ user.username }}" class="follow-btn btn btn-primary" value="users/{{ user.username }}/follow">follow</button>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="container text-center" style="margin-top: 30px;"><h3>Hmmmm... I cannot find any users. Someone stolen them</h3></div>
+    {% endfor %}
+</div>
+{% endblock %}
